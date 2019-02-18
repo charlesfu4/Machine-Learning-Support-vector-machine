@@ -8,16 +8,25 @@ import matplotlib.pyplot as plt
 def start(num_sam):
 	return numpy.zeros(num_sam)
 
-def kernel(data1,data2):
-	return numpy.dot(input1,input2)
+"kernal function define"
+def kernel_lin(data1,data2):
+	return numpy.dot(data1,data2)
 
+def kernel_poly(data1,data2,p=2):
+	return numpy.power((numpy.dot(data1,data2)+1),p)
+
+def kernel_rad(data1,data2,sig=2):
+	return math.exp(-numpy.dot((numpy.substract(data1,data2)),(numpy.substract(data1,data2)))/(2*sig^2))
+
+""
 
 k=kernel()
 ti=numpy.zeros(num_sam)
+
 tj=numpy.zeros(num_sam)
 
 def objective(alpha):
-	pij=ti*tj*k
+
 	return 
 
 def zerofun():
