@@ -20,8 +20,7 @@ targets=targets[permute]
 n=len(inputs)
 
 "initial vector of guessing alpha"
-def start():
-	return nimpy.zeros(n)
+start=numpy.zeros(n)
 
 "kernal function define"
 def kernel_lin(x1,x2):
@@ -41,29 +40,30 @@ def Pij(data,t,kernel):
 			P[i][j]=t[i]*t[j]*kernel([(data[i])[0], (data[i])[1]], [(data[j])[0], (data[j])[1]])
 	return P[i][j]
 
+P_ij=Pij(inputs,targets,kernel_lin)
+
 "Implement objective funciton"
-def objective(alpha):
-	return 0.5 * numpy.dot(numpy.dot(alpha,alpha),P_ij)-numpy.sum(alpha)
+def objective(a):
+	return 0.5 * numpy.dot(numpy.dot(a,a),P_ij)-numpy.sum(a)
 
 "zerofunction"
-def zerofunc(C):
-	cons = ({'type': 'ineq',  },\
-              {'type': 'eq', 'fun': lambda },\
-			  }
-	return cons
+def zerofunc(a):
+	return numpy.dot(a,targets)
+	
 			  
 "minimizaiton process"
-ret = minimize(objective(alpha), start(), bounds=[(0,2) for b in range(n)], contrains=zerofunc(2))
+c=1
+c=input("select C manually");
 
+ret = minimize(objective, start, bounds=[(0,c) for b in range(n)], constraints={'type':'eq','fun':zerofunc})
+
+alpha=ret['x']
 
 
 "plotting process"
- 
- 
 plt.plot([p[0] for p in classA],[p[1] for p in classA],'b. ')
 plt.plot([p[0] for p in classB],[p[1] for p in classB],'r. ')
   
 plt.axis('equal')
 plt.savefig('svmplot.pdf')
 plt.show() 
-
