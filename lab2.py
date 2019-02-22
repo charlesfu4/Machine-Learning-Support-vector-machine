@@ -38,26 +38,41 @@ def Pij(data,t,kernel):
 	for i in range(0,n):
 		for j in range(0,n):
 			P[i][j]=t[i]*t[j]*kernel([(data[i])[0], (data[i])[1]], [(data[j])[0], (data[j])[1]])
-	return P[i][j]
+	return P
 
 P_ij=Pij(inputs,targets,kernel_lin)
 
+
 "Implement objective funciton"
 def objective(a):
-	return 0.5 * numpy.dot(numpy.dot(a,a),P_ij)-numpy.sum(a)
+	return 0.5 * numpy.dot(a,numpy.dot(a,P_ij))-numpy.sum(a)
 
 "zerofunction"
 def zerofunc(a):
 	return numpy.dot(a,targets)
-	
-			  
+				  
+"extract funciton"
+def extract(a):
+	temp=[]
+	for i in a:
+		if i>10e-5:
+			temp.append(i)
+	return temp
+
+
 "minimizaiton process"
-c=1
 c=input("select C manually");
 
 ret = minimize(objective, start, bounds=[(0,c) for b in range(n)], constraints={'type':'eq','fun':zerofunc})
-
 alpha=ret['x']
+
+print(alpha)
+
+"Extract non-zero alpha"
+extarcts=[]
+extarcts=extract(alpha)
+print(extarcts)
+
 
 
 "plotting process"
