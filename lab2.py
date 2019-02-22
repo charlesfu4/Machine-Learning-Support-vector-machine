@@ -54,10 +54,13 @@ def zerofunc(a):
 "extract funciton"
 def extract(a):
 	temp=[]
+	index=[]
 	for i in a:
 		if i>10e-5:
 			temp.append(i)
-	return temp
+			index.append(numpy.index(i))
+	return temp,index
+
 
 
 "minimizaiton process"
@@ -69,9 +72,14 @@ alpha=ret['x']
 print(alpha)
 
 "Extract non-zero alpha"
-extarcts=[]
-extarcts=extract(alpha)
-print(extarcts)
+alpha_ex=[]
+inputs_ex=[]
+targets_ex=[]
+
+alpha_ex=extract(alpha)
+print(alpha_ex)
+
+
 
 
 
