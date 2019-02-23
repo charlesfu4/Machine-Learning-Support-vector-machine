@@ -63,7 +63,6 @@ def p_extract(a):
 	index=numpy.where(a>10e-5)
 	return index[0]
 
-
 "minimizaiton process"
 c=input("select C manually");
 
@@ -74,16 +73,30 @@ print(alpha)
 
 "Extract non-zero alpha"
 alpha_ex=[]
-inputs_ex=[]
+sv=[]
 targets_ex=[]
 
 alpha_ex=a_extract(alpha)
 
+
 print(p_extract(alpha))
 for i in p_extract(alpha):
 	targets_ex.append(targets[i])
-	inputs_ex.append(inputs[i])
-print(inputs_ex)
+	sv.append(inputs[i])
+
+print(sv)
+
+def b_partial(s):
+    temp=0
+    for i in range(0,n):
+        temp+=alpha[i]*targets[i]*kernel_lin([(sv[s])[0],(sv[s])[1]],[(inputs[i])[0],(inputs[i])[1]])
+    temp=temp-targets_ex[s]
+    return temp
+
+print(b_partial(1))
+
+def indicator(a,b):
+
 
 "plotting process"
 plt.plot([p[0] for p in classA],[p[1] for p in classA],'b. ')
