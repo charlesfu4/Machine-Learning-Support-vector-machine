@@ -52,15 +52,16 @@ def zerofunc(a):
 	return numpy.dot(a,targets)
 				  
 "extract funciton"
-def extract(a):
+def a_extract(a):
 	temp=[]
-	index=[]
 	for i in a:
 		if i>10e-5:
 			temp.append(i)
-			index.append(numpy.index(i))
-	return temp,index
+	return temp
 
+def p_extract(a):
+	index=numpy.where(a>10e-5)
+	return index[0]
 
 
 "minimizaiton process"
@@ -76,12 +77,13 @@ alpha_ex=[]
 inputs_ex=[]
 targets_ex=[]
 
-alpha_ex=extract(alpha)
-print(alpha_ex)
+alpha_ex=a_extract(alpha)
 
-
-
-
+print(p_extract(alpha))
+for i in p_extract(alpha):
+	targets_ex.append(targets[i])
+	inputs_ex.append(inputs[i])
+print(inputs_ex)
 
 "plotting process"
 plt.plot([p[0] for p in classA],[p[1] for p in classA],'b. ')
