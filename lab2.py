@@ -86,22 +86,33 @@ for i in p_extract(alpha):
 
 print(sv)
 
-def b_partial(s):
+def b(s):
     temp=0
-    for i in range(0,n):
-        temp+=alpha[i]*targets[i]*kernel_lin([(sv[s])[0],(sv[s])[1]],[(inputs[i])[0],(inputs[i])[1]])
+    for i in range(0,len(alpha_ex)):
+        temp+=alpha_ex[i]*targets_ex[i]*kernel_lin([(sv[s])[0],(sv[s])[1]],[(sv[i])[0],(sv[i])[1]])
     temp=temp-targets_ex[s]
     return temp
 
-print(b_partial(1))
-
-def indicator(a,b):
+def indicator(x,y):
+    temp=0
+    ind=0
+    for i in range(0,len(alpha_ex)):
+        temp+=alpha_ex[i]*targets_ex[i]*kernel_lin([x,y],[(sv[i])[0],(sv[i])[1]])
+        ind=temp-b(0)
+    return ind
 
 
 "plotting process"
 plt.plot([p[0] for p in classA],[p[1] for p in classA],'b. ')
 plt.plot([p[0] for p in classB],[p[1] for p in classB],'r. ')
-  
+
+xgrid=numpy.linspace(-5,5)
+ygrid=numpy.linspace(-4,4)
+ 
+grid=numpy.array([[indicator(x,y) for x in xgrid] for y in ygrid])
+ 
+plt.contour(xgrid,ygrid,grid,(-1.0,0.0,1.0),colors=('red','black','blue'),linewidths=(1,3,1))
+
 plt.axis('equal')
 plt.savefig('svmplot.pdf')
 plt.show() 
